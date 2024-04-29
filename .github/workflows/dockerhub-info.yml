@@ -4,6 +4,10 @@ name: Docker Hub Info
 
 on:
   push:
+    paths:
+      - ".github/workflows/dockerhub-info.yml"
+      - "README.md"
+      - "LICENSE"
     branches:
       - master
 
