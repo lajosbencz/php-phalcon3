@@ -6,6 +6,8 @@ DIR_CONFIG="/etc/php7/conf.d"
 PRIORITY_DEFAULT="50"
 
 for so in "${DIR_SOURCE:?}"/*.so; do
+  # strip symbols
+  strip -s "${so}"
   # get basename of so
   name=$(basename "${so}" | sed 's/\.so$//g')
   echo -ne "\033[1;37m${name}\033[0m"
