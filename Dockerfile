@@ -128,7 +128,7 @@ RUN set -e; \
     wget -c https://github.com/nicolas-van/multirun/releases/download/1.1.3/multirun-x86_64-linux-musl-1.1.3.tar.gz -O - | tar -xz; \
     mv multirun /usr/local/bin/; \
     mkdir -p /var/www/app/public /run/nginx /run/php /var/log/nginx; \
-    ln -sf /proc/1/fd/1 /var/log/nginx/access.log; \
+    ln -sf /dev/null /var/log/nginx/access.log; \
     ln -sf /proc/1/fd/2 /var/log/nginx/error.log; \
     adduser -D -H -h /var/www/app -u $UID app; \
     chown -R app:app /var/www/app /var/lib/nginx /var/log/nginx /run/nginx /run/php; \
