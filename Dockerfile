@@ -131,10 +131,7 @@ RUN set -e; \
     mv multirun /usr/local/bin/; \
     mkdir -p /var/www/app/public /run/nginx /run/php; \
     adduser -D -H -h /var/www/app -u $UID app; \
-    chown -R app:app /var/www/app /var/lib/nginx /run/nginx /var/log/php7 /run/php; \
-    ln -sf /proc/1/fd/1 /var/log/nginx/access.log; \
-    ln -sf /proc/1/fd/2 /var/log/nginx/error.log; \
-    ln -sf /proc/1/fd/2 /var/log/php7/error.log; \
+    chown -R app:app /var/www/app /var/lib/nginx /run/nginx /run/php; \
     apk del .build-deps; \
     rm -fr /usr/lib/php7/modules/*.a /tmp/* /usr/src/* /usr/lib/debug/*;
 
