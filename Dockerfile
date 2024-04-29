@@ -1,6 +1,7 @@
 FROM alpine:3.11
 
-ARG EXTRA_EXTENSIONS='ds-1.4.0 grpc inotify memcache-4.0.5.2 propro psr raphf rar pdo_sqlsrv-5.7.0'
+ARG EXTENSIONS='dio-0.2.2 ds-1.4.0 grpc inotify memcache-4.0.5.2 propro psr raphf rar pdo_sqlsrv-5.7.0'
+ARG EXTRA_EXTENSIONS=''
 ARG UID=1000
 
 ENV LC_ALL en_US.UTF-8
@@ -117,7 +118,7 @@ RUN set -e; \
         php7-zip;
 RUN set -e; \
     export MAKEFLAGS="-j $(nproc)"; \
-    pecl install -f $EXTRA_EXTENSIONS;
+    pecl install -f $EXTENSIONS $EXTRA_EXTENSIONS;
 RUN set -e; \
     /bin/sh /tmp/php-enable-extensions.sh;
 RUN set -e; \

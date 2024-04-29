@@ -12,7 +12,8 @@ Legacy [Phalcon 3](https://docs.phalcon.io/3.4/introduction/), with an extensive
 ### Build args
 
 - `UID` numeric user id for _app_ user
-- `EXTRA_EXTENSIONS` space separated list of extra pecl extensions (will override default list)
+- `EXTENSIONS` default list of pecl extensions
+- `EXTRA_EXTENSIONS` space separated list of extra pecl extensions
 
 ### Paths
 
