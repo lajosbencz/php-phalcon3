@@ -115,13 +115,10 @@ RUN set -e; \
         php7-bz2 \
         php7-simplexml \
         php7-xmlwriter \
-        php7-zip;
-RUN set -e; \
+        php7-zip; \
     export MAKEFLAGS="-j $(nproc)"; \
-    pecl install -f $EXTENSIONS $EXTRA_EXTENSIONS;
-RUN set -e; \
-    /bin/sh /tmp/php-enable-extensions.sh;
-RUN set -e; \
+    pecl install -f $EXTENSIONS $EXTRA_EXTENSIONS; \
+    /bin/sh /tmp/php-enable-extensions.sh; \
     wget https://raw.githubusercontent.com/composer/getcomposer.org/02276be601ec59697e9f474b668d27d14938e910/web/installer -O - -q | php -- --quiet; \
     mv composer.phar /usr/local/bin/composer; \
     mkdir /run/nginx -p; \
