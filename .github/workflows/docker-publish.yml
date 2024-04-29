@@ -11,7 +11,7 @@ on:
   push:
     # branches: [ "master" ]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: [ '*v[0-9]+.[0-9]+.[0-9]+' ]
   pull_request:
     branches: [ "master" ]
 
@@ -78,6 +78,13 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             ${{ env.IMAGE_NAME }}
 
+      # https://github.com/jupyterhub/action-major-minor-tag-calculator
+      - name: Get all relevant tags
+        id: tags
+        uses: jupyterhub/action-major-minor-tag-calculator@v3
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -86,7 +93,8 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+#          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ join(fromJson(steps.tags.outputs.tags)) }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
