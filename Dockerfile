@@ -121,7 +121,6 @@ RUN set -e; \
     /bin/sh /tmp/php-enable-extensions.sh; \
     wget https://raw.githubusercontent.com/composer/getcomposer.org/02276be601ec59697e9f474b668d27d14938e910/web/installer -O - -q | php -- --quiet; \
     mv composer.phar /usr/local/bin/composer; \
-    mkdir /run/nginx -p; \
     wget -c https://github.com/nicolas-van/multirun/releases/download/1.1.3/multirun-x86_64-linux-musl-1.1.3.tar.gz -O - | tar -xz; \
     mv multirun /usr/local/bin/; \
     mkdir -p /var/www/app/public /run/nginx /run/php /var/log/nginx; \
