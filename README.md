@@ -5,9 +5,9 @@ Legacy [Phalcon 3](https://docs.phalcon.io/3.4/introduction/), with an extensive
 
 ### Components
 
-- php-cli
-- php-fpm
 - nginx
+- php _7.3_
+- phalcon _3.4.5_
 
 ### Paths
 
