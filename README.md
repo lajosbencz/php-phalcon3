@@ -1,7 +1,7 @@
 # php-phalcon3
 ## Image for Phalcon 3
 
-Legacy [Phalcon 3](https://docs.phalcon.io/3.4/introduction/), with an extensive extension list and small image size _(~160MB)_.
+Legacy [Phalcon 3](https://docs.phalcon.io/3.4/introduction/), with an extensive extension list and small image size.
 
 ### Components
 

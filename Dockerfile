@@ -115,7 +115,7 @@ RUN set -e; \
         php7-zip; \
     export MAKEFLAGS="-j $(nproc)"; \
     pecl install -f ds-1.4.0; \
-#    pecl install grpc; \
+    pecl install grpc; \
     pecl install inotify; \
     pecl install -f memcache-4.0.5.2; \
     pecl install propro; \
