@@ -48,6 +48,7 @@ ftp
 gd
 gettext
 gmp
+grpc
 hash
 iconv
 igbinary
