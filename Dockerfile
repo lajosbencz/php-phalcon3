@@ -1,5 +1,6 @@
 FROM alpine:3.11
 
+ARG EXTRA_EXTENSIONS='ds-1.4.0 grpc inotify memcache-4.0.5.2 propro psr raphf rar pdo_sqlsrv-5.7.0'
 ARG UID=1000
 
 ENV LC_ALL en_US.UTF-8
@@ -10,7 +11,8 @@ ENV MUSL_LOCPATH="/usr/share/i18n/locales/musl"
 COPY ./php-enable-extensions.sh /tmp/php-enable-extensions.sh
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx-server.conf /etc/nginx/conf.d/default.conf
-COPY ./php-fpm.ini /etc/php7/php-fpm.d/www.conf
+COPY ./php-fpm.ini /etc/php7/php-fpm.conf
+COPY ./php-fpm-pool.ini /etc/php7/php-fpm.d/www.conf
 
 RUN set -e; \
     apk update; \
@@ -112,26 +114,23 @@ RUN set -e; \
         php7-bz2 \
         php7-simplexml \
         php7-xmlwriter \
-        php7-zip; \
+        php7-zip;
+RUN set -e; \
     export MAKEFLAGS="-j $(nproc)"; \
-    pecl install -f ds-1.4.0; \
-    pecl install grpc; \
-    pecl install inotify; \
-    pecl install -f memcache-4.0.5.2; \
-    pecl install propro; \
-    pecl install psr; \
-    pecl install raphf; \
-    pecl install rar; \
-    pecl install -f pdo_sqlsrv-5.7.0; \
-    /bin/sh /tmp/php-enable-extensions.sh; \
+    pecl install -f $EXTRA_EXTENSIONS;
+RUN set -e; \
+    /bin/sh /tmp/php-enable-extensions.sh;
+RUN set -e; \
     wget https://raw.githubusercontent.com/composer/getcomposer.org/02276be601ec59697e9f474b668d27d14938e910/web/installer -O - -q | php -- --quiet; \
     mv composer.phar /usr/local/bin/composer; \
     mkdir /run/nginx -p; \
     wget -c https://github.com/nicolas-van/multirun/releases/download/1.1.3/multirun-x86_64-linux-musl-1.1.3.tar.gz -O - | tar -xz; \
     mv multirun /usr/local/bin/; \
-    mkdir -p /var/www/app/public /run/nginx /run/php; \
+    mkdir -p /var/www/app/public /run/nginx /run/php /var/log/nginx; \
+    ln -sf /proc/1/fd/1 /var/log/nginx/access.log; \
+    ln -sf /proc/1/fd/2 /var/log/nginx/error.log; \
     adduser -D -H -h /var/www/app -u $UID app; \
-    chown -R app:app /var/www/app /var/lib/nginx /run/nginx /run/php; \
+    chown -R app:app /var/www/app /var/lib/nginx /var/log/nginx /run/nginx /run/php; \
     apk del .build-deps; \
     rm -fr /usr/lib/php7/modules/*.a /tmp/* /usr/src/* /usr/lib/debug/*;
 
@@ -145,4 +144,4 @@ WORKDIR /var/www/app
 EXPOSE 8080
 
 ENTRYPOINT [ "/usr/local/bin/multirun" ]
-CMD [ "php-fpm7 -F", "nginx -g 'daemon off;'" ]
+CMD [ "php-fpm7", "nginx" ]

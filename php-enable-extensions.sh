@@ -9,8 +9,6 @@ for so in "${DIR_SOURCE:?}"/*.so; do
   # get basename of so
   name=$(basename "${so}" | sed 's/\.so$//g')
   echo -ne "\033[1;37m${name}\033[0m"
-  skip_list=""
-#  skip_list="$skip_list apcu event pdo phar simplexml"
   skip_list="opcache"
   do_skip="0"
   for skip in $skip_list; do
@@ -24,7 +22,7 @@ for so in "${DIR_SOURCE:?}"/*.so; do
     echo -e "\033[32m S\033[0m"
     continue
   fi
-  if [ "$(php -m | grep -ie ^${name}\$)" ]; then
+  if [ "$(php -m 2>/dev/null | grep -ie ^${name}\$)" ]; then
     # loaded
     echo -e "\033[32m L\033[0m"
     continue
