@@ -5,7 +5,9 @@ Legacy [Phalcon 3](https://docs.phalcon.io/3.4/introduction/), with an extensive
 
 ### Components
 
-- nginx
+- tzdata
+- locales
+- nginx _1.16_
 - php _7.3_
 - phalcon _3.4.5_
 
@@ -25,6 +27,7 @@ Legacy [Phalcon 3](https://docs.phalcon.io/3.4/introduction/), with an extensive
 
 - `/etc/nginx/nginx.conf` nginx config
 - `/etc/nginx/conf.d/default.conf` nginx virtual server config
+- `/etc/php7/php-fpm.conf` php-fpm config
 - `/etc/php7/php-fpm.d/www.conf` php-fpm pool config
 
 ### Extensions
@@ -43,6 +46,7 @@ ctype
 curl
 date
 dba
+dio
 dom
 ds
 enchant
