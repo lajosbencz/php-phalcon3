@@ -94,8 +94,8 @@ jobs:
       - name: Update Docker hub info
         uses: peter-evans/dockerhub-description@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ${{ github.repository }}
 
       # Sign the resulting Docker image digest except on PRs.
