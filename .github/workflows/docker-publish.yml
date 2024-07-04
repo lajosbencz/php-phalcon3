@@ -74,12 +74,19 @@ jobs:
             ${{ env.IMAGE_NAME }}
 
       # https://github.com/jupyterhub/action-major-minor-tag-calculator
-      - name: Get all relevant tags
-        id: tags
+      - name: Tags for ghcr
+        id: tags_ghcr
         uses: jupyterhub/action-major-minor-tag-calculator@v3
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          prefix: "${{ github.repository }}:"
+          prefix: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:"
+      
+      - name: Tags for dockerhub
+        id: tags_hub
+        uses: jupyterhub/action-major-minor-tag-calculator@v3
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          prefix: "${{ env.IMAGE_NAME }}:"
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -90,7 +97,7 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
 #          tags: ${{ steps.meta.outputs.tags }}
-          tags: ${{ join(fromJson(steps.tags.outputs.tags)) }}
+          tags: "${{ join(fromJson(steps.tags_ghcr.outputs.tags)) }},${{ join(fromJson(steps.tags_hub.outputs.tags)) }}"
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
